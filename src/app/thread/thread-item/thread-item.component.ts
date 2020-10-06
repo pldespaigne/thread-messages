@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Thread } from '../+state/thread.store';
 
 
@@ -11,5 +12,13 @@ import { Thread } from '../+state/thread.store';
 export class ThreadItemComponent {
 
   @Input() thread: Thread;
+
+  constructor(
+    private router: Router,
+  ) { }
+
+  openThread() {
+    this.router.navigateByUrl(`/thread/${this.thread.id}`);
+  }
 
 }

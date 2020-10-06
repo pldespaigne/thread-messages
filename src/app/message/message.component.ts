@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AuthQuery } from '../auth/+state/auth.query';
 
 import { Message } from './+state/message.store';
 
@@ -13,4 +14,8 @@ export class MessageComponent {
   @Input() message: Message;
 
   isClosed = true;
+
+  constructor(
+    private auth: AuthQuery,
+  ) { }
 }

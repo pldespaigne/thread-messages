@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { MessageComponent } from './message.component';
 import { FlexModule } from '@angular/flex-layout';
-import { MatCardModule, MatExpansionModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule } from '@angular/material';
 
 
 @NgModule({
@@ -15,6 +15,7 @@ import { MatCardModule, MatExpansionModule, MatIconModule } from '@angular/mater
     FlexModule,
 
     MatIconModule,
+    MatButtonModule,
     MatExpansionModule,
     MatCardModule,
   ],

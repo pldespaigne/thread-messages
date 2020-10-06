@@ -3,7 +3,14 @@ div {
     font-style: italic;
   }
 
+  p {
+    margin: 14px 0 0 0;
+  }
+
   mat-expansion-panel {
     box-shadow: -1px 0 #888;
+    mat-panel-title {
+      color: #a0a0a0;
+    }
   }
 }

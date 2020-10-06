@@ -1,6 +1,6 @@
 
 <mat-toolbar fxLayout="row" fxLayoutAlign="end center">
-  <span>Demo </span>
+  <a routerLink="/">Demo</a>
   <span class="spacer"></span>
   <span fxFlex *ngIf="isLoggedIn$ | async">
     Hello, {{ name$ | async }}

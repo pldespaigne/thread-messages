@@ -3,9 +3,17 @@
 
   <p>{{message.text}}</p>
 
-  <span fxFlexAlign="end" fxLayout="row" fxLayoutAlign>
-    <mat-icon *ngIf="message.isApproved">done_outlined</mat-icon>
-    <label>Posted by {{message.author}} on {{message.timestamp | date:'d MMM yy - HH:mm'}}</label>
+  <span fxFlexAlign="end" fxLayout="row" fxLayoutAlign="start center">
+    <ng-container *ngIf="auth.isOwner; else notOwner">
+      <button mat-icon-button color="primary">
+        <mat-icon *ngIf="message.isApproved">check_circle_outlined</mat-icon>
+        <mat-icon *ngIf="!message.isApproved">done</mat-icon>
+      </button>
+    </ng-container>
+    <ng-template #notOwner>
+      <mat-icon *ngIf="message.isApproved" color="primary">done_outlined</mat-icon>
+    </ng-template>
+    <label> Posted by {{message.author}} on {{message.timestamp | date:'d MMM yy - HH:mm'}}</label>
   </span>
 
   <mat-expansion-panel *ngIf="message.answersCount > 0" (closed)="isClosed = true" (opened)="isClosed = false">
