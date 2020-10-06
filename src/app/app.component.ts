@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthQuery } from './auth/+state/auth.query';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'thread-messages';
+
+  isLoggedIn$ = this.authQuery.isLoggedIn$;
+  name$ = this.authQuery.name$;
+
+  constructor(
+    private authQuery: AuthQuery,
+  ) { }
 }

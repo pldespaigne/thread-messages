@@ -1,0 +1,13 @@
+
+<h2>Thread: {{thread.name}}</h2>
+
+<article fxLayout="column">
+
+  <message *ngFor="let message of messages" [message]="message"></message>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Write a new message</mat-label>
+    <textarea matInput [formControl]="newMessage"></textarea>
+  </mat-form-field>
+  <button mat-raised-button>Post Message</button>
+</article>

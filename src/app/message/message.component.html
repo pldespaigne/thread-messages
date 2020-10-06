@@ -1,0 +1,20 @@
+
+<div fxLayout="column" *ngIf="!!message">
+
+  <p>{{message.text}}</p>
+
+  <span fxFlexAlign="end" fxLayout="row" fxLayoutAlign>
+    <mat-icon *ngIf="message.isApproved">done_outlined</mat-icon>
+    <label>Posted by {{message.author}} on {{message.timestamp | date:'d MMM yy - HH:mm'}}</label>
+  </span>
+
+  <mat-expansion-panel *ngIf="message.answersCount > 0" (closed)="isClosed = true" (opened)="isClosed = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ isClosed ? 'Show' : 'Hide' }} {{message.answersCount}} answers</mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <message *ngFor="let message of message.answers" [message]="message"></message>
+    </ng-template>
+  </mat-expansion-panel>
+
+</div>

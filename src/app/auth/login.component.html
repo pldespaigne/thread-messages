@@ -1,0 +1,19 @@
+
+<article>
+  <h2>LogIn</h2>
+  <section fxLayout="column" fxLayoutAlign="center center">
+    <mat-form-field fxFlex>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" [formControl]="form.get('name')"/>
+      <mat-error *ngIf="form.get('name').errors?.required">Please enter a name</mat-error>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [formControl]="form.get('password')"/>
+      <mat-error *ngIf="form.get('password').errors?.required">Please enter a password</mat-error>
+      <mat-error *ngIf="form.get('password').errors?.minlength">Password must be at least 6 chars long</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button [disabled]="!form.valid" (click)="signIn()">Sign In</button>
+  </section>
+</article>
