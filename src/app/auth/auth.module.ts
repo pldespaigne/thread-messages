@@ -2,20 +2,34 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from './login.component';
+import { LoginPageComponent } from './login/login.component';
+import { SignupPageComponent } from './signup/signup.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginPageComponent,
-    pathMatch: 'full',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'login',
+      },
+      {
+        path: 'login',
+        component: LoginPageComponent,
+      },
+      {
+        path: 'signup',
+        component: SignupPageComponent,
+      }
+    ],
   }
 ];
 
 @NgModule({
-  declarations: [ LoginPageComponent ],
+  declarations: [ LoginPageComponent, SignupPageComponent ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -23,8 +37,9 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSlideToggleModule,
     RouterModule.forChild(routes),
   ],
-  exports: [ LoginPageComponent ]
+  exports: [ LoginPageComponent, SignupPageComponent ]
 })
 export class AuthModule {}

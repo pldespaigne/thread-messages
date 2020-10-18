@@ -1,6 +1,6 @@
 
 <article>
-  <h2>LogIn</h2>
+  <h2>Log In</h2>
   <section fxLayout="column" fxLayoutAlign="center center">
     <mat-form-field fxFlex>
       <mat-label>Name</mat-label>
@@ -15,5 +15,6 @@
     </mat-form-field>
 
     <button mat-raised-button [disabled]="!form.valid" (click)="signIn()">Sign In</button>
+    <a routerLink="/auth/signup">No account ? Sign Up here !</a>
   </section>
 </article>

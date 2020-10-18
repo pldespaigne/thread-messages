@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: 'AIzaSyCRnS3vP-tuO7MK20g3eszirBW1hz1NbEM',
+    authDomain: 'okiniri-demo.firebaseapp.com',
+    databaseURL: 'https://okiniri-demo.firebaseio.com',
+    projectId: 'okiniri-demo',
+    storageBucket: 'okiniri-demo.appspot.com',
+    messagingSenderId: '79778192132',
+    appId: '1:79778192132:web:245dcd5e5b570544454e51',
+    measurementId: 'G-SFM0SVZQ3Z'
+  }
 };
 
 /*

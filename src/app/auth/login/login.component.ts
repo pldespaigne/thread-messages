@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from './+state/auth.service';
+import { AuthService } from '../+state/auth.service';
 
 
 @Component({
@@ -22,9 +22,9 @@ export class LoginPageComponent {
     private router: Router,
   ) { }
 
-  signIn() {
+  async signIn() {
     if (this.form.valid) {
-      this.authService.signIn(this.form.get('name').value, this.form.get('password').value);
+      await this.authService.signIn(this.form.get('name').value, this.form.get('password').value);
       this.router.navigateByUrl('/');
     }
   }

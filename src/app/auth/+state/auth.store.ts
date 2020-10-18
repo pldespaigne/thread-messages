@@ -4,12 +4,14 @@ import { Store, StoreConfig } from '@datorama/akita';
 export interface AuthState {
   id: string;
   name: string;
+  isSeller: boolean;
 }
 
 function createAuthState(): AuthState {
   return {
     id: '',
     name: '',
+    isSeller: false,
   };
 }
 

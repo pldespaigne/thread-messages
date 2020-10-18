@@ -8,6 +8,9 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
 
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireFunctionsModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     BrowserAnimationsModule,
   ],

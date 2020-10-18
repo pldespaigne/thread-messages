@@ -18,7 +18,7 @@ export class MustBeLoggedIn implements CanActivate {
     if (this.authQuery.isLoggedIn) {
       return true;
     } else {
-      return this.router.parseUrl(`/login`);
+      return this.router.parseUrl(`/auth`);
     }
   }
 }

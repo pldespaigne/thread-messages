@@ -14,7 +14,7 @@ const routes: Routes = [
     canActivate: [ MustBeLoggedIn ],
   },
   {
-    path: 'login',
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
