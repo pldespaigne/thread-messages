@@ -1,8 +1,8 @@
 
-import { https } from 'firebase-functions';
+import { config, https } from 'firebase-functions';
 import { initializeApp } from 'firebase-admin';
 
-// import { OkiniriAdmin } from '@okiniri/sdk'; // TODO : uncomment to enable okiniri
+import { OkiniriAdmin } from '@okiniri/sdk'; // TODO : uncomment to enable okiniri
 
 
 
@@ -25,18 +25,18 @@ export const createUser = https.onCall(async(data: CreateUserParams): Promise<Er
   //        INIT OKINIRI
   // --------------------------
   // TODO : uncomment to enable okiniri
-  // const appId = config().okiniri.app_id;
-  // const secret = config().okiniri.secret;
+  const appId = config().okiniri.app_id;
+  const secret = config().okiniri.secret;
 
-  // if (!appId) {
-  //   console.error(`$$$ : MISSING CONFIG VALUE FOR 'okiniri.app_id'`);
-  //   return { error: 'INTERNAL_SERVER_ERROR', result: `Missing config value` };
-  // }
-  // if (!secret) {
-  //   console.error(`$$$ : MISSING CONFIG VALUE FOR 'okiniri.secret'`);
-  //   return { error: 'INTERNAL_SERVER_ERROR', result: `Missing config value` };
-  // }
-  // const okiniriAdmin = new OkiniriAdmin(appId, secret);
+  if (!appId) {
+    console.error(`$$$ : MISSING CONFIG VALUE FOR 'okiniri.app_id'`);
+    return { error: 'INTERNAL_SERVER_ERROR', result: `Missing config value` };
+  }
+  if (!secret) {
+    console.error(`$$$ : MISSING CONFIG VALUE FOR 'okiniri.secret'`);
+    return { error: 'INTERNAL_SERVER_ERROR', result: `Missing config value` };
+  }
+  const okiniriAdmin = new OkiniriAdmin(appId, secret);
 
   // --------------------------
   //      CHECKING INPUTS
@@ -60,22 +60,22 @@ export const createUser = https.onCall(async(data: CreateUserParams): Promise<Er
   if (userSnap.exists)  return { error: 'USERNAME_TAKEN', result: `The username '${data.name}' is already taken!` };
 
 
-  // const okiniriUser = await okiniriAdmin.upsertUser(); // TODO : uncomment to enable okiniri
+  const okiniriUser = await okiniriAdmin.upsertUser(); // TODO : uncomment to enable okiniri
 
   const newUser: UserModel = {
     password: data.password,
     isSeller: data.isSeller,
     okiniri: {
-      id: '',
-      // id: okiniriUser.id,
+      // id: '',
+      id: okiniriUser.id, // TODO : uncomment to enable okiniri
     }
   };
 
   // TODO : uncomment to enable okiniri
-  // if (data.isSeller) {
-    // const sellerObject = await okiniriAdmin.createObject('seller', okiniriUser.id);
-    // newUser.okiniri.sellerId = sellerObject.id;
-  // }
+  if (data.isSeller) {
+    const sellerObject = await okiniriAdmin.createObject('seller', okiniriUser.id);
+    newUser.okiniri.sellerId = sellerObject.id;
+  }
 
   await userRef.set(newUser);
 
