@@ -1,6 +1,6 @@
 
 import { config, https } from 'firebase-functions';
-import { initializeApp } from 'firebase-admin';
+import { app, initializeApp } from 'firebase-admin';
 
 import { OkiniriAdmin } from '@okiniri/sdk'; // TODO : uncomment to enable okiniri
 
@@ -8,23 +8,39 @@ import { OkiniriAdmin } from '@okiniri/sdk'; // TODO : uncomment to enable okini
 
 interface ErrorResultResponse { error?: string, result: any };
 
-interface CreateUserParams {name: string, password: string, isSeller: boolean};
+interface CreateUserParams { name: string, password: string };
 
 interface UserModel {
   password: string,
-  isSeller: boolean,
   okiniri: {
     id: string,
-    sellerId?: string;
+    secret: string,
   }
 };
+
+let _app: app.App;
+let _db: FirebaseFirestore.Firestore;
+
+function firebaseLazyInit() {
+  if (!_app) {
+    _app = initializeApp();
+  }
+  return _app;
+}
+function firestoreLazyInit() {
+  if (!_db) {
+    const firebase = firebaseLazyInit();
+    _db = firebase.firestore();
+  }
+  return _db;
+}
 
 export const createUser = https.onCall(async(data: CreateUserParams): Promise<ErrorResultResponse> => {
 
   // --------------------------
   //        INIT OKINIRI
   // --------------------------
-  // TODO : uncomment to enable okiniri
+
   const appId = config().okiniri.app_id;
   const secret = config().okiniri.secret;
 
@@ -44,15 +60,12 @@ export const createUser = https.onCall(async(data: CreateUserParams): Promise<Er
 
   if (!data.name) return { error: 'MISSING_PARAM', result: `Parameter 'name' is mandatory, but was missing!` };
   if (!data.password) return { error: 'MISSING_PARAM', result: `Parameter 'password' is mandatory, but was missing!` };
-  if (data.isSeller === undefined || data.isSeller === null) return { error: 'MISSING_PARAM', result: `Parameter 'isSeller' is mandatory, but was missing!` };
-
 
   // --------------------------
   //      FUNCTIONS LOGIC
   // --------------------------
 
-  const app = initializeApp();
-  const db = app.firestore();
+  const db = firestoreLazyInit();
 
   const userRef = db.doc(`users/${data.name}`);
   const userSnap = await userRef.get();
@@ -60,22 +73,15 @@ export const createUser = https.onCall(async(data: CreateUserParams): Promise<Er
   if (userSnap.exists)  return { error: 'USERNAME_TAKEN', result: `The username '${data.name}' is already taken!` };
 
 
-  const okiniriUser = await okiniriAdmin.upsertUser(); // TODO : uncomment to enable okiniri
+  const okiniriUser = await okiniriAdmin.upsertUser();
 
   const newUser: UserModel = {
     password: data.password,
-    isSeller: data.isSeller,
     okiniri: {
-      // id: '',
-      id: okiniriUser.id, // TODO : uncomment to enable okiniri
+      id: okiniriUser.id,
+      secret: okiniriUser.secret,
     }
   };
-
-  // TODO : uncomment to enable okiniri
-  if (data.isSeller) {
-    const sellerObject = await okiniriAdmin.createObject('seller', okiniriUser.id);
-    newUser.okiniri.sellerId = sellerObject.id;
-  }
 
   await userRef.set(newUser);
 

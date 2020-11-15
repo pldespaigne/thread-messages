@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { AkitaNgDevtools } from '../../akita-dev-tools';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -21,6 +21,7 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
 
     FlexLayoutModule,
     MatToolbarModule,
+    MatButtonModule,
 
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

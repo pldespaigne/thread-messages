@@ -33,7 +33,6 @@ export class SignupPageComponent {
       name: new FormControl('', [Validators.required], [isUsernameTaken(this.authService)]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       passwordConfirm: new FormControl(''),
-      isSeller: new FormControl(false),
     },
     [passwordMatch()]
   );
@@ -45,7 +44,7 @@ export class SignupPageComponent {
 
   async signUp() {
     if (this.form.valid) {
-      await this.authService.signUp(this.form.get('name').value, this.form.get('password').value, this.form.get('isSeller').value);
+      await this.authService.signUp(this.form.get('name').value, this.form.get('password').value);
       this.router.navigateByUrl('/');
     }
   }

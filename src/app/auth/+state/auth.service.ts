@@ -40,13 +40,15 @@ export class AuthService {
       if (user.password === password) {
         console.log(user);
         window.localStorage.setItem('credentials', JSON.stringify({ name, password }));
-        this.authStore.update(state => ({ id: user.okiniri.id, name, isSeller: user.isSeller }));
+        this.authStore.update(state => ({ id: user.okiniri.id, name, secret: user.okiniri.secret }));
+        return true;
       } else {
         console.log('wrong password');
       }
     } else {
       console.warn('user doesn\'t exists');
     }
+    return false;
   }
 
   recoverSignIn() {
@@ -70,17 +72,23 @@ export class AuthService {
     return userSnap.exists;
   }
 
-  async signUp(name: string, password: string, isSeller: boolean) {
+  async signUp(name: string, password: string) {
 
     const createUser = this.functions.httpsCallable('createUser');
-    const { data: response } = await createUser({name, password, isSeller});
+    const { data: response } = await createUser({name, password});
 
     if (!!response.error) {
       throw new Error(`${response.error}: ${response.result}`);
     } else {
       console.log(response.result);
-      window.localStorage.setItem('credentials', JSON.stringify({ name, password: response.result.password }));
-      this.authStore.update(state => ({ id: response.result.password, name, isSeller: response.result.isSeller }));
+      window.localStorage.setItem('credentials', JSON.stringify({ name, password }));
+      this.authStore.update(state => ({ id: response.result.okiniri.id, name, secret: response.result.okiniri.secret }));
     }
+  }
+
+  logout() {
+    localStorage.removeItem('credentials');
+    this.authStore.reset();
+    window.location.reload();
   }
 }

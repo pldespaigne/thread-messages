@@ -4,6 +4,7 @@
   <span class="spacer"></span>
   <span fxFlex *ngIf="isLoggedIn$ | async">
     Hello, {{ name$ | async }}
+    <button mat-button (click)="logout()">Logout</button>
   </span>
 </mat-toolbar>
 <main>

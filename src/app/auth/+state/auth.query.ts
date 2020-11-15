@@ -25,7 +25,7 @@ export class AuthQuery extends Query<AuthState> {
   }
 
   get isOwner() {
-    return this.getValue().name === 'Owner';
+    return this.getValue().name === 'admin';
   }
 
 }

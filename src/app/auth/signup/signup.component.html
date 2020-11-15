@@ -19,11 +19,6 @@
       <input matInput type="password" [formControl]="form.get('passwordConfirm')"/>
     </mat-form-field>
 
-    <p fxFlex>Select an account type:</p>
-    <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-      <p fxFlex>Buyer</p>
-      <mat-slide-toggle fxFlex [formControl]="form.get('isSeller')">Seller</mat-slide-toggle>
-    </div>
     <mat-error *ngIf="form.errors?.confirmationMismatch">Password and Confirmation are different</mat-error>
     <button mat-raised-button [disabled]="!form.valid" (click)="signUp()">Sign Up</button>
     <a routerLink="/auth/login">Already have an account ? Login here !</a>
